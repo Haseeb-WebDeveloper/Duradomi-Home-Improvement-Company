@@ -15,7 +15,7 @@ export function Footer() {
               alt="Duradomi Logo"
               width={140}
               height={40}
-              className="dark:invert w-20"
+              className="w-20"
             />
           </Link>
 
