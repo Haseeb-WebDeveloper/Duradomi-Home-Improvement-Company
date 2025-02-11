@@ -428,8 +428,8 @@ export function ContactSection() {
               <h3 className="text-xl font-semibold">Waarom kiezen voor onze diensten?</h3>
               <ul className="space-y-3">
                 {[
-                  "Oplossing met complete afwerking",
-                  " Startdatum binnen 2 weken",
+                  "Complete verduurzamingsoplossing",
+                  "Startdatum binnen 2 weken",
                   "Actief in Midden-Nederland",
                   "Subsidie-begeleiding",
                 ].map((item, index) => (
@@ -485,9 +485,9 @@ export function ContactSection() {
                   </svg>
                 </div>
                 <div>
-                  <Link href="mailto:info@renodomi.nl">
+                  <Link href="mailto:info@Duradomi.nl">
                     <h3 className="font-semibold mb-1">Email</h3>
-                    <p className="text-muted-foreground">info@renodomi.nl</p>
+                    <p className="text-muted-foreground">info@Duradomi.nl</p>
                   </Link>
                 </div>
 

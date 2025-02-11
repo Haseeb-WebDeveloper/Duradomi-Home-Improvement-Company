@@ -61,7 +61,7 @@ export function HowWeWorkSection() {
         >
           <h2 className="text-4xl font-bold mb-6">Onze Werkwijze</h2>
           <p className="text-muted-foreground text-lg">
-          Bij isodomi staat kwaliteit en efficiëntie voorop. Als specialist in isolatie zorgen wij voor verduurzaming en woningverbetering. Dit realiseren wij met behulp van een all-in-one oplossing waarbij we de klant bij het hele proces van A tot Z ontzorgen</p>
+          Bij Duradomi staat kwaliteit en efficiëntie voorop. Als specialist in woningverbetering en verduurzaming bieden wij een all-in-one oplossing waarbij we het hele proces van A tot Z verzorgen</p>
         </motion.div>
 
         {/* Steps Grid */}

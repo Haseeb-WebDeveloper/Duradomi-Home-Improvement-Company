@@ -12,7 +12,7 @@ export function Footer() {
           <Link href="/">
             <Image
               src="/logo.jpg"
-              alt="Isodomi Logo"
+              alt="Duradomi Logo"
               width={140}
               height={40}
               className="dark:invert w-20"
@@ -23,7 +23,7 @@ export function Footer() {
 
           {/* Company Info */}
           <div className="text-muted-foreground space-y-2">
-            <p>© 2025 Isodomi | KvK 94082286 | BTW NL866629191B01</p>
+            <p>© 2025 Duradomi | KvK 94082286 | BTW NL866629191B01</p>
           </div>
         </div>
 

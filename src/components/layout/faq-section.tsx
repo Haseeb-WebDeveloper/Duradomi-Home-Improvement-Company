@@ -10,13 +10,13 @@ const faqs = [
     answer: (
       <>
         <p className="mb-4">
-        Ja, bij isodomi verzorgen we het complete traject van A tot Z. Dit betekent dat we u volledig ontzorgen door bijvoorbeeld:
+          Ja, bij Duradomi verzorgen we het complete traject van A tot Z. Dit betekent dat we:
         </p>
         <ul className="list-disc pl-5 mb-4 space-y-2">
-          <li>Alle benodigde sloopwerkzaamheden uit te voeren</li>
-          <li>De isolatie op vakkundige wijze aanbrengen</li>
-          <li>Radiatoren, elektriciteitspunten en vensterbanken aanpassen</li>
-          <li>De complete afwerking verzorgen, inclusief stucwerk, plinten en schilderwerk</li>
+          <li>Het energielabel bepalen en advies geven</li>
+          <li>De isolatie en systemen vakkundig aanbrengen</li>
+          <li>Installaties en aansluitingen aanpassen</li>
+          <li>De complete afwerking verzorgen</li>
           <li>De werkplek schoon en opgeruimd achterlaten</li>
         </ul>
         <p>U hoeft dus niet meerdere partijen in te schakelen; wij regelen alles voor u in één keer.</p>
@@ -24,18 +24,19 @@ const faqs = [
     ),
   },
   {
-    question: "Hoe lang duurt een isolatieproject gemiddeld?",
+    question: "Hoe lang duurt een verduurzamingsproject gemiddeld?",
     answer: (
       <>
         <p className="mb-4">
-          De duur van een isolatieproject hangt af van het type isolatie en de grootte van uw woning. Gemiddeld duurt:
+          Bij Duradomi starten we binnen 2 weken met uw project. De doorlooptijd hangt af van de gekozen maatregelen en de grootte van uw woning. Gemiddeld duurt:
         </p>
         <ul className="list-disc pl-5 mb-4 space-y-2">
-          <li>Dakisolatie: 1-2 weken</li>
-          <li>Gevelisolatie: 1-2 weken</li>
-          <li>Vloerisolatie: 1-2 weken</li>
+          <li>Isolatie (gevel, vloer, dak): 2-3 weken</li>
+          <li>Ventilatie (WTW-systemen): 2-4 dagen</li>
+          <li>Energiesystemen (warmtepompen): 2-3 dagen</li>
+          <li>Glasisolatie (HR++, triple): 1-2 weken</li>
         </ul>
-        <p>We streven ernaar om elk project zo efficiënt mogelijk uit te voeren zonder in te leveren op kwaliteit.</p>
+        <p>Door onze gestandaardiseerde werkwijze en ervaren teams kunnen we snel en efficiënt werken, zonder concessies te doen aan kwaliteit.</p>
       </>
     ),
   },
@@ -44,18 +45,18 @@ const faqs = [
     answer: "We werken uitsluitend met hoogwaardige, gecertificeerde isolatiematerialen die voldoen aan alle Nederlandse bouwnormen. De exacte materiaalkeuze hangt af van uw specifieke situatie en wensen.",
   },
   {
-    question: "Kan ik subsidie krijgen voor isolatie?",
-    answer: "Ja, voor veel isolatiemaatregelen zijn er subsidies beschikbaar via de overheid. Als professioneel isolatiebedrijf helpen we u graag bij het aanvragen van deze subsidies. We begeleiden u door het hele proces en zorgen ervoor dat u optimaal gebruik kunt maken van de beschikbare regelingen.",
+    question: "Kan ik subsidie krijgen voor verduurzaming?",
+    answer: "Ja, voor veel verduurzamingsmaatregelen zijn er subsidies beschikbaar via de overheid. Als erkend verduurzamingsbedrijf helpen we u graag bij het aanvragen van deze subsidies. We begeleiden u door het hele proces en zorgen ervoor dat u optimaal gebruik maakt van de beschikbare regelingen.",
   },
   {
-    question: "Wat is de terugverdientijd van isolatie?",
+    question: "Wat is de terugverdientijd van verduurzaming?",
     answer: (
       <>
         <p className="mb-4">
-          De terugverdientijd verschilt per type isolatie en situatie, maar ligt meestal tussen de 3 en 7 jaar. Factoren die hierop van invloed zijn:
+          De terugverdientijd verschilt per type maatregel en situatie, maar ligt meestal tussen de 3 en 7 jaar. Factoren die hierop van invloed zijn:
         </p>
         <ul className="list-disc pl-5 space-y-2">
-          <li>Het type isolatie</li>
+          <li>Het type verduurzaming</li>
           <li>De huidige staat van uw woning</li>
           <li>Uw energieverbruik</li>
           <li>Energieprijzen</li>
@@ -64,8 +65,12 @@ const faqs = [
     ),
   },
   {
+    question: "Kan er tijdens de winter geïsoleerd worden?",
+    answer: "Ja, we kunnen het hele jaar door isoleren. Onze materialen en technieken zijn geschikt voor alle weersomstandigheden.",
+  },
+  {
     question: "Moet ik thuis zijn tijdens de werkzaamheden?",
-    answer: "Het is niet noodzakelijk om de hele dag thuis te zijn tijdens de werkzaamheden. Wel vragen we u aanwezig te zijn bij de start van het project voor eventuele laatste afstemming en aan het einde voor de oplevering. Tijdens het bouwproces ontvangt u regelmatig updates van de voortgang. Wij zijn voorstander van een transparante communicatie.",
+    answer: "Het is niet noodzakelijk om de hele dag thuis te zijn tijdens de werkzaamheden. Wel vragen we u aanwezig te zijn bij de start van de werkdag voor eventuele laatste afstemming en aan het einde voor een eindcontrole en oplevering.",
   },
 ];
 

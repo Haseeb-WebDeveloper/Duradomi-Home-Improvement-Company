@@ -43,7 +43,7 @@ export function HeroSection() {
 
           >
             <span className="inline-block py-1.5 px-4 rounded-full border border-primary/20 text-primary font-medium text-sm">
-              Premium isolatieoplossingen
+               Duurzame woningverbetering
             </span>
           </motion.div>
 
@@ -55,7 +55,7 @@ export function HeroSection() {
           >
             Specialist in{" "}
             <span className="text-primary">
-            dak-, gevel- en vloerisolatie
+            duurzame woningverbetering
             </span>
           </motion.h1>
 
@@ -65,7 +65,7 @@ export function HeroSection() {
             transition={{ duration: 0.5, delay: 0.4 }}
             className="text-muted-foreground text-lg md:text-xl mb-12 max-w-2xl mx-auto"
           >
-            Met onze hoogwaardige isolatieoplossingen en vakkundige installatie helpen we huiseigenaren in Midden-Nederland hun energierekening te verlagen en wooncomfort te verhogen
+           Met onze expertise in duurzame oplossingen helpen we huiseigenaren in Midden-Nederland hun woning toekomstbestendig te maken en de waarde te verhogen
           </motion.p>
 
           <motion.div
@@ -122,7 +122,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.8 }}
-          className="grid grid-cols-1 md:grid-cols-4 gap-6 items-center"
+          className="grid grid-cols-1 md:grid-cols-4 gap-3 items-center"
         >
           <div className="flex items-center gap-3 justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -136,7 +136,7 @@ export function HeroSection() {
               <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
               <polyline points="22 4 12 14.01 9 11.01" />
             </svg>
-            <span className="">Oplossing met complete afwerking</span>
+            <span className="">Complete verduurzamingsoplossing</span>
           </div>
           <div className="flex items-center gap-3 justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
