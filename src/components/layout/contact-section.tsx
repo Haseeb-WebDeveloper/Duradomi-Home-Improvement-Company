@@ -12,9 +12,28 @@ import { useRouter } from 'next/navigation';
 interface FormData {
   // Step 1
   services: {
-    gevelisolatie: boolean;
-    dakisolatie: boolean;
-    vloerisolatie: boolean;
+    isolatie: boolean;
+    isolatieType: {
+      gevelisolatie: boolean;
+      dakisolatie: boolean;
+      vloerisolatie: boolean;
+    };
+    ventilatie: boolean;
+    ventilatieType: {
+      wtwSystemen: boolean;
+      mechanischeVentilatie: boolean;
+    };
+    energiesystemen: boolean;
+    energieType: {
+      warmtepompen: boolean;
+      cvKetels: boolean;
+    };
+    glasisolatie: boolean;
+    glasType: {
+      hrPlusPlus: boolean;
+      tripleGlas: boolean;
+    };
+    [key: string]: boolean | Record<string, boolean>;
   };
   // Step 2
   street: string;
@@ -31,9 +50,27 @@ interface FormData {
 
 const initialFormData: FormData = {
   services: {
-    gevelisolatie: false,
-    dakisolatie: false,
-    vloerisolatie: false,
+    isolatie: false,
+    isolatieType: {
+      gevelisolatie: false,
+      dakisolatie: false,
+      vloerisolatie: false,
+    },
+    ventilatie: false,
+    ventilatieType: {
+      wtwSystemen: false,
+      mechanischeVentilatie: false,
+    },
+    energiesystemen: false,
+    energieType: {
+      warmtepompen: false,
+      cvKetels: false,
+    },
+    glasisolatie: false,
+    glasType: {
+      hrPlusPlus: false,
+      tripleGlas: false,
+    },
   },
   street: "",
   number: "",
@@ -49,7 +86,7 @@ const initialFormData: FormData = {
 const steps = [
   {
     id: 'services',
-    title: 'Wat voor soort(en) isolatie wilt u laten uitvoeren?'
+    title: 'Welk(e) type(n) dienstverlening wenst u?'
   },
   {
     id: 'location',
@@ -80,6 +117,39 @@ interface FormErrors {
   phone?: string;
 }
 
+// Add service configuration
+const serviceConfig = {
+  isolatie: {
+    label: "Isolatie",
+    subServices: [
+      { id: "gevelisolatie", label: "Gevelisolatie" },
+      { id: "dakisolatie", label: "Dakisolatie" },
+      { id: "vloerisolatie", label: "Vloerisolatie" },
+    ],
+  },
+  ventilatie: {
+    label: "Ventilatie",
+    subServices: [
+      { id: "wtwSystemen", label: "WTW-systemen" },
+      { id: "mechanischeVentilatie", label: "Mechanische ventilatie" },
+    ],
+  },
+  energiesystemen: {
+    label: "Energiesystemen",
+    subServices: [
+      { id: "warmtepompen", label: "Warmtepompen" },
+      { id: "cvKetels", label: "CV-ketels" },
+    ],
+  },
+  glasisolatie: {
+    label: "Glasisolatie",
+    subServices: [
+      { id: "hrPlusPlus", label: "HR++ glas" },
+      { id: "tripleGlas", label: "Triple glas" },
+    ],
+  },
+};
+
 export function ContactSection() {
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [currentStep, setCurrentStep] = useState(0);
@@ -95,6 +165,7 @@ export function ContactSection() {
       if (currentStep === 2) {
         if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone) {
           toast.error("Vul alle verplichte velden in");
+          setIsLoading(false);
           return;
         }
       }
@@ -124,8 +195,17 @@ export function ContactSection() {
     
     switch (currentStep) {
       case 0:
-        if (!Object.values(formData.services).some(value => value)) {
-          newErrors.services = "Selecteer minimaal één service";
+        const hasSelectedServices = Object.entries(serviceConfig).some(([key, _]) => {
+          const mainService = formData.services[key as keyof typeof formData.services];
+          if (!mainService) return false;
+          
+          const typeKey = `${key}Type` as keyof typeof formData.services;
+          const subServices = formData.services[typeKey] as Record<string, boolean>;
+          return Object.values(subServices).some(checked => checked);
+        });
+        
+        if (!hasSelectedServices) {
+          newErrors.services = "Selecteer minimaal één service en bijbehorende optie";
         }
         break;
       case 1:
@@ -171,27 +251,78 @@ export function ContactSection() {
     switch (currentStep) {
       case 0:
         return (
-          <div className="space-y-4">
-            {Object.entries(formData.services).map(([service, isSelected]) => (
-              <label key={service} className="flex items-center space-x-3 p-4 rounded-lg border cursor-pointer hover:bg-accent">
-                <input
-                  type="checkbox"
-                  checked={isSelected}
-                  onChange={(e) => setFormData({
-                    ...formData,
-                    services: {
-                      ...formData.services,
-                      [service]: e.target.checked
-                    }
-                  })}
-                  className="rounded border-gray-300"
-                />
-                <span className="text-foreground">{service} *</span>
-              </label>
+          <div className="space-y-6">
+            {Object.entries(serviceConfig).map(([serviceKey, serviceData]) => (
+              <div key={serviceKey} className="space-y-3">
+                {/* Main service checkbox */}
+                <label className="flex items-center space-x-3 py-3 px-4 bg-primary/[0.05] rounded-lg border cursor-pointer hover:bg-primary/5 transition-colors">
+                  <input
+                    type="checkbox"
+                    checked={formData.services[serviceKey as keyof typeof formData.services]}
+                    onChange={(e) => {
+                      const isChecked = e.target.checked;
+                      setFormData(prev => {
+                        const typeKey = `${serviceKey}Type` as keyof typeof formData.services;
+                        return {
+                          ...prev,
+                          services: {
+                            ...prev.services,
+                            [serviceKey]: isChecked,
+                            [typeKey]: Object.fromEntries(
+                              serviceData.subServices.map(sub => [sub.id, false])
+                            )
+                          }
+                        };
+                      });
+                    }}
+                    className="h-5 w-5 rounded border-gray-300 text-primary"
+                  />
+                  <span className="text-lg font-medium">{serviceData.label}</span>
+                </label>
 
+                {/* Sub-services */}
+                {formData.services[serviceKey as keyof typeof formData.services] && (
+                  <div className="ml-8 grid grid-cols-1 sm:grid-cols-2  gap-3">
+                    {serviceData.subServices.map((subService) => (
+                      <label
+                        key={subService.id}
+                        className="flex items-center space-x-3 p-3 bg-foreground/5 rounded-lg border cursor-pointer hover:bg-accent/50 transition-colors"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={
+                            formData.services[
+                              `${serviceKey}Type` as keyof typeof formData.services
+                            ]?.[subService.id] || false
+                          }
+                          onChange={(e) => {
+                            const isChecked = e.target.checked;
+                            setFormData(prev => {
+                              const typeKey = `${serviceKey}Type` as keyof typeof formData.services;
+                              return {
+                                ...prev,
+                                services: {
+                                  ...prev.services,
+                                  [typeKey]: {
+                                    ...prev.services[typeKey],
+                                    [subService.id]: isChecked
+                                  }
+                                }
+                              };
+                            });
+                          }}
+                          className="h-4 w-4 rounded border-gray-300 text-primary"
+                        />
+                        <span className="text-sm">{subService.label}</span>
+                      </label>
+                    ))}
+                  </div>
+                )}
+              </div>
             ))}
+            
             {errors.services && (
-              <p className="text-red-500 text-sm mt-1">{errors.services}</p>
+              <p className="text-destructive text-sm mt-2">{errors.services}</p>
             )}
           </div>
         );

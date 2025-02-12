@@ -3,9 +3,27 @@ import nodemailer from "nodemailer";
 
 interface FormData {
   services: {
-    gevelisolatie: boolean;
-    dakisolatie: boolean;
-    vloerisolatie: boolean;
+    isolatie: boolean;
+    isolatieType: {
+      gevelisolatie: boolean;
+      dakisolatie: boolean;
+      vloerisolatie: boolean;
+    };
+    ventilatie: boolean;
+    ventilatieType: {
+      wtwSystemen: boolean;
+      mechanischeVentilatie: boolean;
+    };
+    energiesystemen: boolean;
+    energieType: {
+      warmtepompen: boolean;
+      cvKetels: boolean;
+    };
+    glasisolatie: boolean;
+    glasType: {
+      hrPlusPlus: boolean;
+      tripleGlas: boolean;
+    };
   };
   street: string;
   number: string;
@@ -19,6 +37,38 @@ interface FormData {
   additionalInfo: string;
 }
 
+const serviceConfig = {
+  isolatie: {
+    label: "Isolatie",
+    subServices: [
+      { id: "gevelisolatie", label: "Gevelisolatie" },
+      { id: "dakisolatie", label: "Dakisolatie" },
+      { id: "vloerisolatie", label: "Vloerisolatie" },
+    ],
+  },
+  ventilatie: {
+    label: "Ventilatie",
+    subServices: [
+      { id: "wtwSystemen", label: "WTW-systemen" },
+      { id: "mechanischeVentilatie", label: "Mechanische ventilatie" },
+    ],
+  },
+  energiesystemen: {
+    label: "Energiesystemen",
+    subServices: [
+      { id: "warmtepompen", label: "Warmtepompen" },
+      { id: "cvKetels", label: "CV-ketels" },
+    ],
+  },
+  glasisolatie: {
+    label: "Glasisolatie",
+    subServices: [
+      { id: "hrPlusPlus", label: "HR++ glas" },
+      { id: "tripleGlas", label: "Triple glas" },
+    ],
+  },
+};
+
 export async function POST(req: Request) {
   try {
     const data: FormData = await req.json();
@@ -27,22 +77,32 @@ export async function POST(req: Request) {
     if (!data.firstName || !data.lastName || !data.email || !data.phone) {
       return NextResponse.json(
         { error: "Required fields are missing" },
-        { status: 400 }
+        { status: 400 } 
       );
     }
 
     // Format selected services for email
-    const selectedServices = Object.entries(data.services)
-      .filter(([_, isSelected]) => isSelected)
-      .map(([service]) => {
-        const serviceNames: { [key: string]: string } = {
-          gevelisolatie: "Gevelisolatie",
-          dakisolatie: "Dakisolatie",
-          vloerisolatie: "Vloerisolatie"
-        };
-        return serviceNames[service];
-      })
-      .join(", ");
+    const formatSelectedServices = (services: FormData['services']) => {
+      const result: string[] = [];
+      
+      Object.entries(serviceConfig).forEach(([serviceKey, serviceData]) => {
+        if (services[serviceKey as keyof typeof services]) {
+          const subServices = serviceData.subServices
+            .filter(sub => services[`${serviceKey}Type`][sub.id])
+            .map(sub => sub.label);
+          
+          if (subServices.length > 0) {
+            result.push(`${serviceData.label}: ${subServices.join(', ')}`);
+          } else {
+            result.push(serviceData.label);
+          }
+        }
+      });
+      
+      return result.join('\n');
+    };
+
+    const selectedServices = formatSelectedServices(data.services);
 
     // Create email transporter
     const transporter = nodemailer.createTransport({
