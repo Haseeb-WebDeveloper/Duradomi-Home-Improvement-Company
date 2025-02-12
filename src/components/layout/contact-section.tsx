@@ -9,32 +9,45 @@ import { toast } from "sonner";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
 
-interface FormData {
-  // Step 1
-  services: {
-    isolatie: boolean;
-    isolatieType: {
-      gevelisolatie: boolean;
-      dakisolatie: boolean;
-      vloerisolatie: boolean;
-    };
-    ventilatie: boolean;
-    ventilatieType: {
-      wtwSystemen: boolean;
-      mechanischeVentilatie: boolean;
-    };
-    energiesystemen: boolean;
-    energieType: {
-      warmtepompen: boolean;
-      cvKetels: boolean;
-    };
-    glasisolatie: boolean;
-    glasType: {
-      hrPlusPlus: boolean;
-      tripleGlas: boolean;
-    };
-    [key: string]: boolean | Record<string, boolean>;
+interface ServiceType {
+  id: string;
+  label: string;
+}
+
+interface ServiceConfig {
+  [key: string]: {
+    label: string;
+    subServices: ServiceType[];
   };
+}
+
+interface FormServices {
+  isolatie: boolean;
+  isolatieType: {
+    gevelisolatie: boolean;
+    dakisolatie: boolean;
+    vloerisolatie: boolean;
+  };
+  ventilatie: boolean;
+  ventilatieType: {
+    wtwSystemen: boolean;
+    mechanischeVentilatie: boolean;
+  };
+  energiesystemen: boolean;
+  energieType: {
+    warmtepompen: boolean;
+    cvKetels: boolean;
+  };
+  glasisolatie: boolean;
+  glasType: {
+    hrPlusPlus: boolean;
+    tripleGlas: boolean;
+  };
+  [key: string]: boolean | Record<string, boolean>;
+}
+
+interface FormData {
+  services: FormServices;
   // Step 2
   street: string;
   number: string;
@@ -118,7 +131,7 @@ interface FormErrors {
 }
 
 // Add service configuration
-const serviceConfig = {
+const serviceConfig: ServiceConfig = {
   isolatie: {
     label: "Isolatie",
     subServices: [
@@ -254,15 +267,14 @@ export function ContactSection() {
           <div className="space-y-6">
             {Object.entries(serviceConfig).map(([serviceKey, serviceData]) => (
               <div key={serviceKey} className="space-y-3">
-                {/* Main service checkbox */}
                 <label className="flex items-center space-x-3 py-3 px-4 bg-primary/[0.05] rounded-lg border cursor-pointer hover:bg-primary/5 transition-colors">
                   <input
                     type="checkbox"
-                    checked={formData.services[serviceKey as keyof typeof formData.services]}
+                    checked={(formData.services[serviceKey as keyof FormServices] as boolean) || false}
                     onChange={(e) => {
                       const isChecked = e.target.checked;
                       setFormData(prev => {
-                        const typeKey = `${serviceKey}Type` as keyof typeof formData.services;
+                        const typeKey = `${serviceKey}Type` as keyof FormServices;
                         return {
                           ...prev,
                           services: {
@@ -280,9 +292,8 @@ export function ContactSection() {
                   <span className="text-lg font-medium">{serviceData.label}</span>
                 </label>
 
-                {/* Sub-services */}
-                {formData.services[serviceKey as keyof typeof formData.services] && (
-                  <div className="ml-8 grid grid-cols-1 sm:grid-cols-2  gap-3">
+                {(formData.services[serviceKey as keyof FormServices] as boolean) && (
+                  <div className="ml-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {serviceData.subServices.map((subService) => (
                       <label
                         key={subService.id}
@@ -291,20 +302,20 @@ export function ContactSection() {
                         <input
                           type="checkbox"
                           checked={
-                            formData.services[
-                              `${serviceKey}Type` as keyof typeof formData.services
-                            ]?.[subService.id] || false
+                            (formData.services[
+                              `${serviceKey}Type` as keyof FormServices
+                            ] as Record<string, boolean>)?.[subService.id] || false
                           }
                           onChange={(e) => {
                             const isChecked = e.target.checked;
                             setFormData(prev => {
-                              const typeKey = `${serviceKey}Type` as keyof typeof formData.services;
+                              const typeKey = `${serviceKey}Type` as keyof FormServices;
                               return {
                                 ...prev,
                                 services: {
                                   ...prev.services,
                                   [typeKey]: {
-                                    ...prev.services[typeKey],
+                                    ...(prev.services[typeKey] as Record<string, boolean>),
                                     [subService.id]: isChecked
                                   }
                                 }

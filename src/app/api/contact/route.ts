@@ -1,43 +1,57 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
-interface FormData {
-  services: {
-    isolatie: boolean;
-    isolatieType: {
-      gevelisolatie: boolean;
-      dakisolatie: boolean;
-      vloerisolatie: boolean;
-    };
-    ventilatie: boolean;
-    ventilatieType: {
-      wtwSystemen: boolean;
-      mechanischeVentilatie: boolean;
-    };
-    energiesystemen: boolean;
-    energieType: {
-      warmtepompen: boolean;
-      cvKetels: boolean;
-    };
-    glasisolatie: boolean;
-    glasType: {
-      hrPlusPlus: boolean;
-      tripleGlas: boolean;
-    };
+interface ServiceType {
+  id: string;
+  label: string;
+}
+
+interface ServiceConfig {
+  [key: string]: {
+    label: string;
+    subServices: ServiceType[];
   };
+}
+
+interface FormServices {
+  isolatie: boolean;
+  isolatieType: {
+    gevelisolatie: boolean;
+    dakisolatie: boolean;
+    vloerisolatie: boolean;
+  };
+  ventilatie: boolean;
+  ventilatieType: {
+    wtwSystemen: boolean;
+    mechanischeVentilatie: boolean;
+  };
+  energiesystemen: boolean;
+  energieType: {
+    warmtepompen: boolean;
+    cvKetels: boolean;
+  };
+  glasisolatie: boolean;
+  glasType: {
+    hrPlusPlus: boolean;
+    tripleGlas: boolean;
+  };
+  [key: string]: boolean | Record<string, boolean>;
+}
+
+interface FormData {
+  services: FormServices;
   street: string;
   number: string;
   postalCode: string;
   houseType: string;
   firstName: string;
-
   lastName: string;
   email: string;
   phone: string;
   additionalInfo: string;
 }
 
-const serviceConfig = {
+const serviceConfig: ServiceConfig = {
   isolatie: {
     label: "Isolatie",
     subServices: [
@@ -81,14 +95,17 @@ export async function POST(req: Request) {
       );
     }
 
-    // Format selected services for email
-    const formatSelectedServices = (services: FormData['services']) => {
+    // Format selected services for email with type safety
+    const formatSelectedServices = (services: FormServices): string => {
       const result: string[] = [];
       
       Object.entries(serviceConfig).forEach(([serviceKey, serviceData]) => {
-        if (services[serviceKey as keyof typeof services]) {
+        if (services[serviceKey as keyof FormServices]) {
+          const typeKey = `${serviceKey}Type` as keyof FormServices;
+          const subServiceType = services[typeKey] as Record<string, boolean>;
+          
           const subServices = serviceData.subServices
-            .filter(sub => services[`${serviceKey}Type`][sub.id])
+            .filter(sub => subServiceType[sub.id])
             .map(sub => sub.label);
           
           if (subServices.length > 0) {
