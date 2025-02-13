@@ -19,13 +19,13 @@ export function Footer() {
             />
           </Link>
 
-          <div>
+          <div className="text-muted-foreground">
             <p>Werkgebied: heel Nederland</p>
           </div>
 
           {/* Company Info */}
           <div className="text-muted-foreground space-y-2">
-            <p>© 2025 Duradomi | KvK 94082286 | BTW NL866629191B01</p>
+            <p>© 2025 Renodomi | KvK 94082286 | BTW NL866629191B01</p>
           </div>
         </div>
 

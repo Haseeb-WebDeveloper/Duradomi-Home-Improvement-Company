@@ -65,6 +65,10 @@ const faqs = [
     ),
   },
   {
+    question: "Welke garanties bieden jullie?",
+    answer: "Wij geven garantie op onze werkzaamheden. De exacte garantietermijn is afhankelijk van het type renovatie en de gebruikte materialen. Bij het bouwvoorstel ontvangt u een uitgebreid garantieoverzicht met alle details.",
+  },
+  {
     question: "Kan er tijdens de winter geïsoleerd worden?",
     answer: "Ja, we kunnen het hele jaar door isoleren. Onze materialen en technieken zijn geschikt voor alle weersomstandigheden.",
   },

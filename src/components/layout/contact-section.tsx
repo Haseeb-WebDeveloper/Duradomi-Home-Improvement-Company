@@ -267,65 +267,70 @@ export function ContactSection() {
           <div className="space-y-6">
             {Object.entries(serviceConfig).map(([serviceKey, serviceData]) => (
               <div key={serviceKey} className="space-y-3">
-                <label className="flex items-center space-x-3 py-3 px-4 bg-primary/[0.05] rounded-lg border cursor-pointer hover:bg-primary/5 transition-colors">
-                  <input
-                    type="checkbox"
-                    checked={(formData.services[serviceKey as keyof FormServices] as boolean) || false}
-                    onChange={(e) => {
-                      const isChecked = e.target.checked;
-                      setFormData(prev => {
-                        const typeKey = `${serviceKey}Type` as keyof FormServices;
-                        return {
-                          ...prev,
-                          services: {
-                            ...prev.services,
-                            [serviceKey]: isChecked,
-                            [typeKey]: Object.fromEntries(
-                              serviceData.subServices.map(sub => [sub.id, false])
-                            )
-                          }
-                        };
-                      });
-                    }}
-                    className="h-5 w-5 rounded border-gray-300 text-primary"
-                  />
-                  <span className="text-lg font-medium">{serviceData.label}</span>
-                </label>
+                <div className="border rounded-lg">
+                  <label className="flex items-center p-4 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={(formData.services[serviceKey as keyof FormServices] as boolean) || false}
+                      onChange={(e) => {
+                        const isChecked = e.target.checked;
+                        setFormData(prev => {
+                          const typeKey = `${serviceKey}Type` as keyof FormServices;
+                          return {
+                            ...prev,
+                            services: {
+                              ...prev.services,
+                              [serviceKey]: isChecked,
+                              [typeKey]: Object.fromEntries(
+                                serviceData.subServices.map(sub => [sub.id, false])
+                              )
+                            }
+                          };
+                        });
+                      }}
+                      className="h-5 w-5 rounded border-gray-300"
+                    />
+                    <div className="ml-3 text-lg font-medium text-black dark:text-white">
+                      {serviceData.label}
+                    </div>
+                  </label>
+                </div>
 
                 {(formData.services[serviceKey as keyof FormServices] as boolean) && (
                   <div className="ml-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {serviceData.subServices.map((subService) => (
-                      <label
-                        key={subService.id}
-                        className="flex items-center space-x-3 p-3 bg-foreground/5 rounded-lg border cursor-pointer hover:bg-accent/50 transition-colors"
-                      >
-                        <input
-                          type="checkbox"
-                          checked={
-                            (formData.services[
-                              `${serviceKey}Type` as keyof FormServices
-                            ] as Record<string, boolean>)?.[subService.id] || false
-                          }
-                          onChange={(e) => {
-                            const isChecked = e.target.checked;
-                            setFormData(prev => {
-                              const typeKey = `${serviceKey}Type` as keyof FormServices;
-                              return {
-                                ...prev,
-                                services: {
-                                  ...prev.services,
-                                  [typeKey]: {
-                                    ...(prev.services[typeKey] as Record<string, boolean>),
-                                    [subService.id]: isChecked
+                      <div key={subService.id} className="border rounded-lg">
+                        <label className="flex items-center p-3 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={
+                              (formData.services[
+                                `${serviceKey}Type` as keyof FormServices
+                              ] as Record<string, boolean>)?.[subService.id] || false
+                            }
+                            onChange={(e) => {
+                              const isChecked = e.target.checked;
+                              setFormData(prev => {
+                                const typeKey = `${serviceKey}Type` as keyof FormServices;
+                                return {
+                                  ...prev,
+                                  services: {
+                                    ...prev.services,
+                                    [typeKey]: {
+                                      ...(prev.services[typeKey] as Record<string, boolean>),
+                                      [subService.id]: isChecked
+                                    }
                                   }
-                                }
-                              };
-                            });
-                          }}
-                          className="h-4 w-4 rounded border-gray-300 text-primary"
-                        />
-                        <span className="text-sm">{subService.label}</span>
-                      </label>
+                                };
+                              });
+                            }}
+                            className="h-4 w-4 rounded border-gray-300"
+                          />
+                          <div className="ml-3 text-sm text-black dark:text-white">
+                            {subService.label}
+                          </div>
+                        </label>
+                      </div>
                     ))}
                   </div>
                 )}
