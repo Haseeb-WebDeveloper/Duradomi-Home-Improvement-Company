@@ -7,7 +7,7 @@ export function Footer() {
   return (
     <footer className="border-t border-primary/10">
       <div className="container mx-auto px-4 py-12">
-        <div className="flex flex-col items-center gap-6 text-center">
+        <div className="flex flex-col items-center gap-4 text-center">
           {/* Logo */}
           <Link href="/">
             <Image
@@ -19,7 +19,9 @@ export function Footer() {
             />
           </Link>
 
-
+          <div>
+            <p>Werkgebied: heel Nederland</p>
+          </div>
 
           {/* Company Info */}
           <div className="text-muted-foreground space-y-2">
