@@ -7,6 +7,12 @@ import { Footer } from "@/components/layout/footer";
 export const metadata: Metadata = {
   title: "Duradomi - Specialist in duurzame woningverbetering",
   description: "Duradomi is specialist in duurzame woningverbetering. Wij helpen woningeigenaren in Midden-Nederland hun huis energiezuinig en comfortabel te maken.",
+  icons: {
+    icon: "/favicon.ico",
+  },
+  verification: {
+    google: "KTIrD1tKvxTnnR2CZg0TSFbMUsRcV7QhLOJZVjtOCW4",
+  },
 };
 
 export default function RootLayout({
@@ -16,6 +22,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={GeistSans.className}>
+      <head>
+        <meta name="google-site-verification" content="KTIrD1tKvxTnnR2CZg0TSFbMUsRcV7QhLOJZVjtOCW4" />
+      </head>
       <body className="antialiased">
         <ThemeProvider
           attribute="class"
