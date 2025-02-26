@@ -5,8 +5,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 export const metadata: Metadata = {
-  title: "Duradomi - Specialist in duurzame woningverbetering",
-  description: "Duradomi is specialist in duurzame woningverbetering. Wij helpen woningeigenaren in Midden-Nederland hun huis energiezuinig en comfortabel te maken.",
+  title: "duradomi - Specialist in duurzame woningverbetering",
+  description: "duradomi is specialist in duurzame woningverbetering. Wij helpen woningeigenaren in Midden-Nederland hun huis energiezuinig en comfortabel te maken.",
   icons: {
     icon: "/favicon.ico",
   },

@@ -32,7 +32,7 @@ export function AboutSection() {
             </div>
 
             {/* Stats */}
-            <div className="absolute bottom-6 right-6 bg-background/80 backdrop-blur-lg rounded-xl p-6 shadow-lg">
+            {/* <div className="absolute bottom-6 right-6 bg-background/80 backdrop-blur-lg rounded-xl p-6 shadow-lg">
               <div className="grid grid-cols-2 gap-6">
                 <div>
                   <div className="text-3xl font-bold text-primary">€85/m²</div>
@@ -43,7 +43,7 @@ export function AboutSection() {
                   <div className="text-sm text-muted-foreground">Jaren ervaring</div>
                 </div>
               </div>
-            </div>
+            </div> */}
 
           </motion.div>
 
@@ -84,9 +84,9 @@ export function AboutSection() {
               transition={{ duration: 0.5, delay: 0.4 }}
               className="mt-8 p-6 bg-primary/5 rounded-xl border border-primary/10"
             >
-              <div className="text-xl font-semibold mb-2">
+              {/* <div className="text-xl font-semibold mb-2">
               Totale woningverduurzaming vanaf  €85/m²
-              </div>
+              </div> */}
               <p className="text-muted-foreground mb-4">
                 Bespaar direct op uw energierekening!
               </p>

@@ -69,10 +69,6 @@ const faqs = [
     answer: "Wij geven garantie op onze werkzaamheden. De exacte garantietermijn is afhankelijk van het type renovatie en de gebruikte materialen. Bij het bouwvoorstel ontvangt u een uitgebreid garantieoverzicht met alle details.",
   },
   {
-    question: "Kan er tijdens de winter geïsoleerd worden?",
-    answer: "Ja, we kunnen het hele jaar door isoleren. Onze materialen en technieken zijn geschikt voor alle weersomstandigheden.",
-  },
-  {
     question: "Moet ik thuis zijn tijdens de werkzaamheden?",
     answer: "Het is niet noodzakelijk om de hele dag thuis te zijn tijdens de werkzaamheden. Wel vragen we u aanwezig te zijn bij de start van de werkdag voor eventuele laatste afstemming en aan het einde voor een eindcontrole en oplevering.",
   },

@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import Link from "next/link";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 interface ServiceType {
   id: string;
@@ -36,7 +36,7 @@ interface FormServices {
   energiesystemen: boolean;
   energieType: {
     warmtepompen: boolean;
-    cvKetels: boolean;
+    hrKetels: boolean;
   };
   glasisolatie: boolean;
   glasType: {
@@ -52,7 +52,12 @@ interface FormData {
   street: string;
   number: string;
   postalCode: string;
-  houseType: 'hoekwoning' | 'tussenwoning' | 'vrijstaande' | 'twee-onder-een-kap' | '';
+  houseType:
+    | "hoekwoning"
+    | "tussenwoning"
+    | "vrijstaande"
+    | "twee-onder-een-kap"
+    | "";
   // Step 3
   firstName: string;
   lastName: string;
@@ -77,7 +82,7 @@ const initialFormData: FormData = {
     energiesystemen: false,
     energieType: {
       warmtepompen: false,
-      cvKetels: false,
+      hrKetels: false,
     },
     glasisolatie: false,
     glasType: {
@@ -98,24 +103,24 @@ const initialFormData: FormData = {
 
 const steps = [
   {
-    id: 'services',
-    title: 'Welk(e) type(n) dienstverlening wenst u?'
+    id: "services",
+    title: "Welk(e) type(n) dienstverlening wenst u?",
   },
   {
-    id: 'location',
-    title: 'Waar moeten de werkzaamheden worden uitgevoerd?'
+    id: "location",
+    title: "Waar moeten de werkzaamheden worden uitgevoerd?",
   },
   {
-    id: 'personal',
-    title: 'Vul alle informatie in en Ontvang een Prijsindicatie'
-  }
+    id: "personal",
+    title: "Vul alle informatie in en Ontvang een Prijsindicatie",
+  },
 ];
 
 const houseTypes = [
-  { id: 'hoekwoning', label: 'Hoekwoning' },
-  { id: 'tussenwoning', label: 'Tussenwoning' },
-  { id: 'vrijstaande', label: 'Vrijstaande woning' },
-  { id: 'twee-onder-een-kap', label: 'Twee-onder-één-kap woning' },
+  { id: "hoekwoning", label: "Hoekwoning" },
+  { id: "tussenwoning", label: "Tussenwoning" },
+  { id: "vrijstaande", label: "Vrijstaande woning" },
+  { id: "twee-onder-een-kap", label: "Twee-onder-één-kap woning" },
 ];
 
 interface FormErrors {
@@ -151,7 +156,7 @@ const serviceConfig: ServiceConfig = {
     label: "Energiesystemen",
     subServices: [
       { id: "warmtepompen", label: "Warmtepompen" },
-      { id: "cvKetels", label: "CV-ketels" },
+      { id: "hrKetels", label: "HR-ketels" },
     ],
   },
   glasisolatie: {
@@ -176,24 +181,29 @@ export function ContactSection() {
 
       // Validate required fields
       if (currentStep === 2) {
-        if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone) {
+        if (
+          !formData.firstName ||
+          !formData.lastName ||
+          !formData.email ||
+          !formData.phone
+        ) {
           toast.error("Vul alle verplichte velden in");
           setIsLoading(false);
           return;
         }
       }
 
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
-      if (!response.ok) throw new Error('Failed to send message');
-      
+      if (!response.ok) throw new Error("Failed to send message");
+
       // Redirect to thank you page instead of showing toast
-      router.push('/thank-you');
-      
+      router.push("/thank-you");
+
       setFormData(initialFormData);
       setCurrentStep(0);
     } catch (error) {
@@ -205,37 +215,50 @@ export function ContactSection() {
 
   const validateStep = () => {
     const newErrors: FormErrors = {};
-    
+
     switch (currentStep) {
       case 0:
-        const hasSelectedServices = Object.entries(serviceConfig).some(([key, _]) => {
-          const mainService = formData.services[key as keyof typeof formData.services];
-          if (!mainService) return false;
-          
-          const typeKey = `${key}Type` as keyof typeof formData.services;
-          const subServices = formData.services[typeKey] as Record<string, boolean>;
-          return Object.values(subServices).some(checked => checked);
-        });
-        
+        const hasSelectedServices = Object.entries(serviceConfig).some(
+          ([key, _]) => {
+            const mainService =
+              formData.services[key as keyof typeof formData.services];
+            if (!mainService) return false;
+
+            const typeKey = `${key}Type` as keyof typeof formData.services;
+            const subServices = formData.services[typeKey] as Record<
+              string,
+              boolean
+            >;
+            return Object.values(subServices).some((checked) => checked);
+          }
+        );
+
         if (!hasSelectedServices) {
-          newErrors.services = "Selecteer minimaal één service en bijbehorende optie";
+          newErrors.services =
+            "Selecteer minimaal één service en bijbehorende optie";
         }
         break;
       case 1:
         if (!formData.street.trim()) newErrors.street = "Straat is verplicht";
-        if (!formData.number.trim()) newErrors.number = "Huisnummer is verplicht";
-        if (!formData.postalCode.trim()) newErrors.postalCode = "Postcode is verplicht";
-        if (!formData.houseType) newErrors.houseType = "Woningtype is verplicht";
+        if (!formData.number.trim())
+          newErrors.number = "Huisnummer is verplicht";
+        if (!formData.postalCode.trim())
+          newErrors.postalCode = "Postcode is verplicht";
+        if (!formData.houseType)
+          newErrors.houseType = "Woningtype is verplicht";
         break;
       case 2:
-        if (!formData.firstName.trim()) newErrors.firstName = "Voornaam is verplicht";
-        if (!formData.lastName.trim()) newErrors.lastName = "Achternaam is verplicht";
+        if (!formData.firstName.trim())
+          newErrors.firstName = "Voornaam is verplicht";
+        if (!formData.lastName.trim())
+          newErrors.lastName = "Achternaam is verplicht";
         if (!formData.email.trim()) {
           newErrors.email = "Email is verplicht";
         } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
           newErrors.email = "Voer een geldig emailadres in";
         }
-        if (!formData.phone.trim()) newErrors.phone = "Telefoonnummer is verplicht";
+        if (!formData.phone.trim())
+          newErrors.phone = "Telefoonnummer is verplicht";
         break;
     }
 
@@ -249,13 +272,13 @@ export function ContactSection() {
     if (currentStep === steps.length - 1) {
       handleSubmit();
     } else {
-      setCurrentStep(prev => prev + 1);
+      setCurrentStep((prev) => prev + 1);
     }
   };
 
   const handleBack = () => {
     if (currentStep > 0) {
-      setCurrentStep(prev => prev - 1);
+      setCurrentStep((prev) => prev - 1);
       setErrors({});
     }
   };
@@ -271,20 +294,28 @@ export function ContactSection() {
                   <label className="flex items-center p-4 cursor-pointer">
                     <input
                       type="checkbox"
-                      checked={(formData.services[serviceKey as keyof FormServices] as boolean) || false}
+                      checked={
+                        (formData.services[
+                          serviceKey as keyof FormServices
+                        ] as boolean) || false
+                      }
                       onChange={(e) => {
                         const isChecked = e.target.checked;
-                        setFormData(prev => {
-                          const typeKey = `${serviceKey}Type` as keyof FormServices;
+                        setFormData((prev) => {
+                          const typeKey =
+                            `${serviceKey}Type` as keyof FormServices;
                           return {
                             ...prev,
                             services: {
                               ...prev.services,
                               [serviceKey]: isChecked,
                               [typeKey]: Object.fromEntries(
-                                serviceData.subServices.map(sub => [sub.id, false])
-                              )
-                            }
+                                serviceData.subServices.map((sub) => [
+                                  sub.id,
+                                  false,
+                                ])
+                              ),
+                            },
                           };
                         });
                       }}
@@ -296,7 +327,9 @@ export function ContactSection() {
                   </label>
                 </div>
 
-                {(formData.services[serviceKey as keyof FormServices] as boolean) && (
+                {(formData.services[
+                  serviceKey as keyof FormServices
+                ] as boolean) && (
                   <div className="ml-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {serviceData.subServices.map((subService) => (
                       <div key={subService.id} className="border rounded-lg">
@@ -304,23 +337,29 @@ export function ContactSection() {
                           <input
                             type="checkbox"
                             checked={
-                              (formData.services[
-                                `${serviceKey}Type` as keyof FormServices
-                              ] as Record<string, boolean>)?.[subService.id] || false
+                              (
+                                formData.services[
+                                  `${serviceKey}Type` as keyof FormServices
+                                ] as Record<string, boolean>
+                              )?.[subService.id] || false
                             }
                             onChange={(e) => {
                               const isChecked = e.target.checked;
-                              setFormData(prev => {
-                                const typeKey = `${serviceKey}Type` as keyof FormServices;
+                              setFormData((prev) => {
+                                const typeKey =
+                                  `${serviceKey}Type` as keyof FormServices;
                                 return {
                                   ...prev,
                                   services: {
                                     ...prev.services,
                                     [typeKey]: {
-                                      ...(prev.services[typeKey] as Record<string, boolean>),
-                                      [subService.id]: isChecked
-                                    }
-                                  }
+                                      ...(prev.services[typeKey] as Record<
+                                        string,
+                                        boolean
+                                      >),
+                                      [subService.id]: isChecked,
+                                    },
+                                  },
                                 };
                               });
                             }}
@@ -336,7 +375,7 @@ export function ContactSection() {
                 )}
               </div>
             ))}
-            
+
             {errors.services && (
               <p className="text-destructive text-sm mt-2">{errors.services}</p>
             )}
@@ -347,12 +386,12 @@ export function ContactSection() {
         return (
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-1">
-                Straat *
-              </label>
+              <label className="block text-sm font-medium mb-1">Straat *</label>
               <Input
                 value={formData.street}
-                onChange={(e) => setFormData({ ...formData, street: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, street: e.target.value })
+                }
                 className={errors.street ? "border-red-500" : ""}
               />
               {errors.street && (
@@ -365,7 +404,9 @@ export function ContactSection() {
               </label>
               <Input
                 value={formData.number}
-                onChange={(e) => setFormData({ ...formData, number: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, number: e.target.value })
+                }
                 className={errors.number ? "border-red-500" : ""}
               />
               {errors.number && (
@@ -378,7 +419,9 @@ export function ContactSection() {
               </label>
               <Input
                 value={formData.postalCode}
-                onChange={(e) => setFormData({ ...formData, postalCode: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, postalCode: e.target.value })
+                }
                 className={errors.postalCode ? "border-red-500" : ""}
               />
               {errors.postalCode && (
@@ -395,7 +438,12 @@ export function ContactSection() {
                       name="houseType"
                       value={type.id}
                       checked={formData.houseType === type.id}
-                      onChange={(e) => setFormData({ ...formData, houseType: e.target.value as FormData['houseType'] })}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          houseType: e.target.value as FormData["houseType"],
+                        })
+                      }
                       className="w-5 h-5 border-gray-300 text-primary focus:ring-primary"
                     />
                     <span className="text-base">{type.label}</span>
@@ -418,7 +466,9 @@ export function ContactSection() {
               </label>
               <Input
                 value={formData.firstName}
-                onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, firstName: e.target.value })
+                }
                 className={errors.firstName ? "border-red-500" : ""}
               />
               {errors.firstName && (
@@ -431,7 +481,9 @@ export function ContactSection() {
               </label>
               <Input
                 value={formData.lastName}
-                onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, lastName: e.target.value })
+                }
                 className={errors.lastName ? "border-red-500" : ""}
               />
               {errors.lastName && (
@@ -444,7 +496,9 @@ export function ContactSection() {
               </label>
               <Input
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
                 className={errors.email ? "border-red-500" : ""}
               />
               {errors.email && (
@@ -457,7 +511,9 @@ export function ContactSection() {
               </label>
               <Input
                 value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, phone: e.target.value })
+                }
                 className={errors.phone ? "border-red-500" : ""}
               />
               {errors.phone && (
@@ -467,7 +523,9 @@ export function ContactSection() {
             <Textarea
               placeholder="Aanvullende informatie (optioneel)"
               value={formData.additionalInfo}
-              onChange={(e) => setFormData({ ...formData, additionalInfo: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, additionalInfo: e.target.value })
+              }
               className="min-h-[100px]"
             />
           </div>
@@ -499,10 +557,16 @@ export function ContactSection() {
               <div className="flex justify-between mb-8">
                 {steps.map((step, index) => (
                   <div key={index} className="flex items-center">
-                    <div className={`
+                    <div
+                      className={`
                       w-8 h-8 rounded-full flex items-center justify-center
-                      ${index === currentStep ? 'bg-primary text-white' : 'bg-gray-200'}
-                    `}>
+                      ${
+                        index === currentStep
+                          ? "bg-primary text-white"
+                          : "bg-gray-200"
+                      }
+                    `}
+                    >
                       {index + 1}
                     </div>
                   </div>
@@ -510,12 +574,14 @@ export function ContactSection() {
               </div>
 
               {/* Step Title */}
-              <h3 className="text-lg font-medium mb-6">{steps[currentStep].title}</h3>
+              <h3 className="text-lg font-medium mb-6">
+                {steps[currentStep].title}
+              </h3>
 
               {/* Form Content */}
               <form onSubmit={(e) => e.preventDefault()}>
                 {renderStepContent()}
-                
+
                 <div className="mt-6 space-y-4">
                   <div className="flex gap-3">
                     {currentStep > 0 && (
@@ -535,19 +601,43 @@ export function ContactSection() {
                     >
                       {isLoading ? (
                         <div className="flex items-center justify-center">
-                          <svg className="animate-spin -ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          <svg
+                            className="animate-spin -ml-1 mr-3 h-5 w-5"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
                           </svg>
                           Verzenden...
                         </div>
-                      ) : currentStep === steps.length - 1 ? 'Aanvraag verzenden' : 'Volgende'}
+                      ) : currentStep === steps.length - 1 ? (
+                        "Aanvraag verzenden"
+                      ) : (
+                        "Volgende"
+                      )}
                     </Button>
                   </div>
 
                   {/* Houses Count */}
                   <div className="flex items-center justify-center text-sm text-gray-600">
-                    <svg className="w-4 h-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <svg
+                      className="w-4 h-4 mr-2"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
                       <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                     </svg>
                     <span>binnen 2 weken een startdatum</span>
@@ -566,13 +656,16 @@ export function ContactSection() {
             className="space-y-8 lg:sticky lg:top-24 order-2 md:order-1"
           >
             <div>
-              <h2 className="text-4xl font-bold mb-6">Vraag direct een vrijblijvende offerte aan</h2>
+              <h2 className="text-4xl font-bold mb-6">
+                Vraag direct een vrijblijvende offerte aan
+              </h2>
             </div>
-
 
             {/* Why Contact Ons */}
             <div className="space-y-4">
-              <h3 className="text-xl font-semibold">Waarom kiezen voor onze diensten?</h3>
+              <h3 className="text-xl font-semibold">
+                Waarom kiezen voor onze diensten?
+              </h3>
               <ul className="space-y-3">
                 {[
                   "Complete verduurzamingsoplossing",
@@ -611,7 +704,17 @@ export function ContactSection() {
             <div className="space-y-6">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
                     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                   </svg>
                 </div>
@@ -621,23 +724,31 @@ export function ContactSection() {
                     <p className="text-muted-foreground">+31850604466</p>
                   </Link>
                 </div>
-
               </div>
 
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
                     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                     <path d="m22 6-10 7L2 6" />
                   </svg>
                 </div>
                 <div>
-                  <Link href="mailto:info@Duradomi.nl">
+                  <Link href="mailto:info@renodomi.nl">
                     <h3 className="font-semibold mb-1">Email</h3>
-                    <p className="text-muted-foreground">info@Duradomi.nl</p>
+                    <p className="text-muted-foreground">info@renodomi.nl</p>
                   </Link>
                 </div>
-
               </div>
             </div>
           </motion.div>
@@ -645,4 +756,4 @@ export function ContactSection() {
       </div>
     </section>
   );
-} 
+}

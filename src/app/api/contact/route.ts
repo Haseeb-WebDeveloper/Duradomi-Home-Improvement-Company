@@ -28,7 +28,7 @@ interface FormServices {
   energiesystemen: boolean;
   energieType: {
     warmtepompen: boolean;
-    cvKetels: boolean;
+    hrKetels: boolean;
   };
   glasisolatie: boolean;
   glasType: {
@@ -71,7 +71,7 @@ const serviceConfig: ServiceConfig = {
     label: "Energiesystemen",
     subServices: [
       { id: "warmtepompen", label: "Warmtepompen" },
-      { id: "cvKetels", label: "CV-ketels" },
+      { id: "hrKetels", label: "HR-ketels" },
     ],
   },
   glasisolatie: {
