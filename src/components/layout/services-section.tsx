@@ -21,7 +21,8 @@ const services = [
         <path d="m4 14 8-8 8 8" />
         <path d="M14 14v6" />
       </svg>
-    )
+    ),
+    link: "https://isodomi.nl/"
   },
   {
     title: "Ventilatie",
@@ -37,7 +38,8 @@ const services = [
         <path d="M3 9h18" />
         <path d="M3 15h18" />
       </svg>
-    )
+    ),
+    link:"#contact"
   },
   {
     title: "Energiesystemen",
@@ -52,7 +54,8 @@ const services = [
         <rect width="18" height="18" x="3" y="3" rx="2" />
         <path d="M3 15h18" />
       </svg>
-    )
+    ),
+      link: "#contact"
   },
   {
     title: "Glasisolatie",
@@ -67,7 +70,8 @@ const services = [
         <rect width="18" height="18" x="3" y="3" rx="2" />
         <path d="M3 15h18" />
       </svg>
-    )
+    ),
+    link: "#contact"
   }
 ];
 
@@ -140,7 +144,7 @@ export function ServicesSection() {
                 {/* Action Button */}
                 <div className="p-6 pt-0">
                   <Link
-                    href="#contact"
+                    href={service.link}
                     className="flex items-center justify-center px-4 py-2 rounded-md bg-foreground/90 text-background w-full group-hover:bg-primary/80 group-hover:text-primary-foreground transition-colors"
                   >
                     Contact Ons
