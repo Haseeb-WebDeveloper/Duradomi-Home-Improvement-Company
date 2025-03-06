@@ -30,6 +30,19 @@ export default function RootLayout({
           name="google-site-verification"
           content="KTIrD1tKvxTnnR2CZg0TSFbMUsRcV7QhLOJZVjtOCW4"
         />
+        
+        {/* Google Tag (gtag.js) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-XTXBG1FJX6"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag("config", "G-XTXBG1FJX6");
+            `,
+          }}
+        />
       </head>
       <body className="antialiased">
         <ThemeProvider
