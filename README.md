@@ -97,10 +97,16 @@ The site is optimized for deployment on Vercel. For deployment:
 - Use `npm run build` for production build
 - Use `npm run start` to start production server
 
-## Contact
 
-For questions or support, please contact [contact information]
 
-## License
+## 🤝 Contact
 
-[License information]
+Haseeb Ahmed - [web.dev.haseeb@gmail.com](mailto:web.dev.haseeb@gmail.com)
+
+Connect with me on:
+- [LinkedIn](https://pk.linkedin.com/in/haseeb-ahmed-raza-khan)
+- [Instagram](https://www.instagram.com/haseeb.ahmed.raza.khan/)
+
+---
+
+Built with ❤ by Haseeb Ahmed Raza Khan
