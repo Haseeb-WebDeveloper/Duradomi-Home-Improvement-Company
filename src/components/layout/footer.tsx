@@ -29,7 +29,7 @@ export function Footer() {
           </div>
           <div className="text-muted-foreground">
               <Link className="hover:underline hover:text-primary" href="https://haseebkhan.online/" target="_blank" rel="noopener noreferrer">
-                <p>Developed by Haseeb Khan</p>
+                <p>Developed by Haseeb Khan & Wasif Ali</p>
               </Link>
             </div>
         </div>

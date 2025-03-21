@@ -670,7 +670,7 @@ export function ContactSection() {
                 {[
                   "Complete verduurzamingsoplossing",
                   "Startdatum binnen 2 weken",
-                  "Actief in Midden-Nederland",
+                  "Actief in heel de Randstad",
                   "Subsidie-begeleiding",
                 ].map((item, index) => (
                   <motion.li

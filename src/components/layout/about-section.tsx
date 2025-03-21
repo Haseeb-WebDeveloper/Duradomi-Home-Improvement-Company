@@ -60,7 +60,7 @@ export function AboutSection() {
 
             <div className="space-y-6 text-muted-foreground">
               <p>
-              Duradomi is een gespecialiseerd verduurzamingsbedrijf dat zich richt op het energiezuiniger maken van woningen en bedrijfspanden in heel midden-Nederland. Als expert in duurzame woningverbetering hebben we ruime ervaring in de verduurzamingsbranche.
+              Duradomi is een gespecialiseerd verduurzamingsbedrijf dat zich richt op het energiezuiniger maken van woningen en bedrijfspanden in heel de randstad. Als expert in duurzame woningverbetering hebben we ruime ervaring in de verduurzamingsbranche.
               </p>
               
               <p>

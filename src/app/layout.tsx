@@ -9,7 +9,7 @@ import { ContactPopupProvider } from "@/components/providers/contact-popup-provi
 export const metadata: Metadata = {
   title: "duradomi - Specialist in duurzame woningverbetering",
   description:
-    "duradomi is specialist in duurzame woningverbetering. Wij helpen woningeigenaren in Midden-Nederland hun huis energiezuinig en comfortabel te maken.",
+    "duradomi is specialist in duurzame woningverbetering. Wij helpen woningeigenaren in de randstad hun huis energiezuinig en comfortabel te maken.",
   icons: {
     icon: "/favicon.ico",
   },
