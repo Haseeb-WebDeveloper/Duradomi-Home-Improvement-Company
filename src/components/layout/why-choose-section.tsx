@@ -70,7 +70,7 @@ export default function WhyChooseSection() {
           className="text-center max-w-3xl mx-auto mb-12"
         >
           <h2 className="text-4xl font-bold mb-2">
-            Waarom kiezen voor isoleren:
+            Waarom kiezen voor verduurzamen
           </h2>
         </motion.div>
 
