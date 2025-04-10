@@ -668,10 +668,10 @@ export function ContactSection() {
               </h3>
               <ul className="space-y-3">
                 {[
-                  "Complete verduurzamingsoplossing",
-                  "Startdatum binnen 2 weken",
-                  "Actief in heel de Randstad",
-                  "Subsidie-begeleiding",
+                   "Complete ontzorging",
+                   "Startdatum binnen 2 weken",
+                   "Actief in de hele Randstad",
+                   "Subsidie-begeleiding",
                 ].map((item, index) => (
                   <motion.li
                     key={index}
