@@ -7,9 +7,9 @@ import { Footer } from "@/components/layout/footer";
 import { ContactPopupProvider } from "@/components/providers/contact-popup-provider";
 
 export const metadata: Metadata = {
-  title: "duradomi - Specialist in duurzame woningverbetering",
+  title: "Duradomi | Specialist in duurzame woningverbetering",
   description:
-    "duradomi is specialist in duurzame woningverbetering. Wij helpen woningeigenaren in de randstad hun huis energiezuinig en comfortabel te maken.",
+    "Duradomi is specialist in duurzame woningverbetering. Wij helpen woningeigenaren in de randstad hun huis energiezuinig en comfortabel te maken.",
   icons: {
     icon: "/favicon.ico",
   },
